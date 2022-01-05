@@ -1,8 +1,10 @@
 package com.debanshu777.stocx.dataSource.model
 
 
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "stock")
 data class Stock(
     @SerializedName("change")
     val change: Int, // 67

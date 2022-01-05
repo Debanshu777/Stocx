@@ -1,4 +1,4 @@
-package com.debanshu777.stocx.dataSource.api
+package com.debanshu777.stocx.dataSource.network
 
 import com.debanshu777.stocx.dataSource.model.StockResponse
 import com.debanshu777.stocx.utils.Resource
