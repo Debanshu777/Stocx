@@ -10,7 +10,7 @@ import com.debanshu777.stocx.dataSource.model.Stock
 @Dao
 interface StockDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsertStock(article: Stock): Long
+    suspend fun upsertStock(stock: Stock): Long
 
     @Query("SELECT * FROM stock")
     fun getAllStocks(): LiveData<List<Stock>>
