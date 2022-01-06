@@ -2,18 +2,20 @@ package com.debanshu777.stocx.dataSource.repository
 
 import com.debanshu777.stocx.dataSource.local.StockDatabase
 import com.debanshu777.stocx.dataSource.model.Stock
+import com.debanshu777.stocx.dataSource.network.NetworkClient
 import com.debanshu777.stocx.dataSource.network.RetrofitInstance
+import kotlinx.coroutines.flow.Flow
 
 class StockRepository(
     private val db: StockDatabase,
-    private val client: RetrofitInstance
+    private val client: NetworkClient
 ) {
     suspend fun getStockDataFromNetwork(sids:String)=
-        RetrofitInstance.api.getStockData(sids)
+        client.api.getStockData(sids)
 
     suspend fun updateLocalStockData(stock: Stock)=
         db.getStockDao().upsertStock(stock)
 
-    fun getStockDataFromLocal()=
+    fun getStockDataFromLocal(): Flow<List<Stock>> =
         db.getStockDao().getAllStocks()
 }

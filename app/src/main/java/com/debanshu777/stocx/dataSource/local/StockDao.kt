@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.debanshu777.stocx.dataSource.model.Stock
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface StockDao {
@@ -13,5 +14,5 @@ interface StockDao {
     suspend fun upsertStock(stock: Stock): Long
 
     @Query("SELECT * FROM stock")
-    fun getAllStocks(): LiveData<List<Stock>>
+    fun getAllStocks(): Flow<List<Stock>>
 }
