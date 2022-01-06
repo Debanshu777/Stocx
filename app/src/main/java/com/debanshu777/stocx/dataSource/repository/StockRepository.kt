@@ -8,10 +8,9 @@ import kotlinx.coroutines.flow.Flow
 
 class StockRepository(
     private val db: StockDatabase,
-    private val client: NetworkClient
 ) {
     suspend fun getStockDataFromNetwork(sids:String)=
-        client.api.getStockData(sids)
+        RetrofitInstance.api.getStockData(sids)
 
     suspend fun updateLocalStockData(stock: Stock)=
         db.getStockDao().upsertStock(stock)

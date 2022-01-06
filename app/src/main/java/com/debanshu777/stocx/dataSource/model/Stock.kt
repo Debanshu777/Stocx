@@ -12,7 +12,7 @@ data class Stock(
     val sid: String,
 
     @SerializedName("change")
-    val change: Int,
+    val change: Double,
 
     @SerializedName("close")
     val close: Double,
