@@ -1,35 +1,24 @@
 package com.debanshu777.stocx.ui
 
-import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.debanshu777.stocx.StocxApplication
 import com.debanshu777.stocx.dataSource.model.Stock
 import com.debanshu777.stocx.dataSource.model.StockResponse
-import com.debanshu777.stocx.dataSource.network.ConnectionLiveData
 import com.debanshu777.stocx.dataSource.repository.StockRepository
 import com.debanshu777.stocx.utils.Constants
 import com.debanshu777.stocx.utils.Resource
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.IOException
 
 class MainActivityViewModel(
-    application: Application,
-    private val connectionLiveData: ConnectionLiveData,
     private val stockRepository: StockRepository
-) : AndroidViewModel(application) {
+) : ViewModel() {
     val stockData: MutableLiveData<Resource<StockResponse>> = MutableLiveData()
     val isNetworkAvailable: MutableLiveData<Boolean> = MutableLiveData(true)
+    val getDataActiveState: MutableLiveData<String> = MutableLiveData("INACTIVE")
     var stockDataResponse: StockResponse? = null
     val responseFlow = MutableLiveData<List<Stock>>(null)
 
@@ -60,7 +49,7 @@ class MainActivityViewModel(
                     }
                 }
             } else {
-              stockData.postValue(Resource.Error("No Internet Connection"))
+                stockData.postValue(Resource.Error("No Internet Connection"))
             }
         } catch (t: Throwable) {
             when (t) {

@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Stocx/app/src/main/res/drawable/ic_pause_icon.xml" value="0.121875" />
+        <entry key="..\:/Stocx/app/src/main/res/drawable/ic_play_icon.xml" value="0.121875" />
         <entry key="..\:/Stocx/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
         <entry key="..\:/Stocx/app/src/main/res/layout/stock_item.xml" value="0.4466666666666667" />
         <entry key="..\:/Stocx/app/src/main/res/menu/menu.xml" value="0.10572916666666667" />

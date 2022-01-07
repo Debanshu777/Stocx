@@ -20,11 +20,10 @@ class StockAdapter(
     }
 
     override fun onBindViewHolder(holder: StockAdapterViewHolder, position: Int) {
-        //holder.cellYearText.text = nameOfYear[position]
         holder.stockSid.text = stock[position].sid
         holder.stockPrice.text = stock[position].price.toString()
         holder.stockChange.text = stock[position].change.toString()
-        if(stock[position].change<0){
+        if (stock[position].change < 0) {
             holder.changeIcon.setImageResource(R.drawable.ic_loss_icon)
         }
     }

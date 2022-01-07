@@ -7,5 +7,5 @@ data class StockResponse(
     @SerializedName("data")
     val data: List<Stock>,
     @SerializedName("success")
-    val success: Boolean // true
+    val success: Boolean
 )

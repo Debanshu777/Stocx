@@ -9,5 +9,5 @@ interface StockAPI {
     @GET("stocks/quotes")
     suspend fun getStockData(
         @Query("sids") sids: String,
-    ):Response<StockResponse>
+    ): Response<StockResponse>
 }
