@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="stock_sid_textSize">20sp</dimen>
+    <dimen name="stock_item_padding">15dp</dimen>
+</resources>

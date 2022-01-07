@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dummy_sid">Dummy</string>
+    <string name="dummy_price">1234.5</string>
+</resources>

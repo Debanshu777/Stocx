@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Stocx</string>
+    <string name="dummy_sid">Dummy</string>
+    <string name="dummy_price">1234.5</string>
+    <string name="dummy_change">57.9</string>
+    <string name="change_icon_dec">Change Icon</string>
+    <string name="no_network_connection">No Network Connection</string>
 </resources>
