@@ -15,6 +15,6 @@ class StockRepository(
     suspend fun updateLocalStockData(stock: Stock)=
         db.getStockDao().upsertStock(stock)
 
-    fun getStockDataFromLocal(): Flow<List<Stock>> =
+    fun getStockDataFromLocal():  Flow<List<Stock>> =
         db.getStockDao().getAllStocks()
 }
