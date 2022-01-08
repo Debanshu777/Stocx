@@ -5,5 +5,7 @@ class Constants {
         const val BASE_URL: String = "https://api.tickertape.in"
         const val QUERY: String = "TCS,RELI,HDBK,INFY,HLL,ITC"
         const val DELAY_TIME_BETWEEN_CALL: Long = 5_000
+        const val ACTIVE="ACTIVE"
+        const val INACTIVE="INACTIVE"
     }
 }

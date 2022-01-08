@@ -22,14 +22,15 @@ class StockPoller(
     override fun poll(delay: Long): Flow<Response<StockResponse>> {
         return channelFlow {
             while (!isClosedForSend) {
-                if (viewModel.getDataActiveState.value == "INACTIVE") {
+                if (viewModel.pollingState.value == "INACTIVE") {
+                    Log.i("Poller", "Poller Stopping")
                     close()
                     return@channelFlow
                 }
+                Log.i("Poller", "Poller Running")
                 val data = repository.getStockDataFromNetwork(Constants.QUERY)
                 send(data)
                 delay(delay)
-                Log.e("Poller", "Poller Running")
             }
         }.flowOn(dispatcher)
     }

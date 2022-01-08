@@ -15,11 +15,12 @@ import com.debanshu777.stocx.dataSource.polling.StockPoller
 import com.debanshu777.stocx.dataSource.repository.StockRepository
 import com.debanshu777.stocx.databinding.ActivityMainBinding
 import com.debanshu777.stocx.ui.adapter.StockAdapter
+import com.debanshu777.stocx.utils.Constants.Companion.ACTIVE
 import com.debanshu777.stocx.utils.Constants.Companion.DELAY_TIME_BETWEEN_CALL
+import com.debanshu777.stocx.utils.Constants.Companion.INACTIVE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
@@ -51,11 +52,7 @@ open class MainActivity : AppCompatActivity() {
                 binding.networkUpdate.visibility = View.VISIBLE
             }
         })
-        viewModel.stockData.observe(this, {
-            // binding.dummy.text=it.data.toString()
-        })
-        viewModel.responseFlow.observe(this, {
-            // binding.dummy2.text=it?.toString()
+        viewModel.stockDataLocalSingleSource.observe(this, {
             it?.let {
                 setupRecyclerView(it)
             }
@@ -71,10 +68,10 @@ open class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.getDataIcon -> {
-                when (viewModel.getDataActiveState.value) {
-                    "INACTIVE" -> {
+                when (viewModel.pollingState.value) {
+                    INACTIVE -> {
                         item.setIcon(R.drawable.ic_pause_icon)
-                        viewModel.getDataActiveState.value = "ACTIVE"
+                        viewModel.pollingState.value = ACTIVE
                         val data = stockPoller.poll(DELAY_TIME_BETWEEN_CALL)
                         CoroutineScope(Dispatchers.Main).launch {
                             data.collect {
@@ -82,9 +79,9 @@ open class MainActivity : AppCompatActivity() {
                             }
                         }
                     }
-                    "ACTIVE" -> {
+                    ACTIVE -> {
                         item.setIcon(R.drawable.ic_play_icon)
-                        viewModel.getDataActiveState.value = "INACTIVE"
+                        viewModel.pollingState.value = INACTIVE
                     }
                 }
                 true
