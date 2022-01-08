@@ -19,7 +19,7 @@ class MainActivityViewModel(
     val stockData: MutableLiveData<Resource<StockResponse>> = MutableLiveData()
     val isNetworkAvailable: MutableLiveData<Boolean> = MutableLiveData(true)
     val getDataActiveState: MutableLiveData<String> = MutableLiveData("INACTIVE")
-    var stockDataResponse: StockResponse? = null
+    private var stockDataResponse: StockResponse? = null
     val responseFlow = MutableLiveData<List<Stock>>(null)
 
     init {
@@ -32,14 +32,13 @@ class MainActivityViewModel(
     }
 
     private fun getDataToUI() = viewModelScope.launch {
-        getStockData(Constants.QUERY)
+        setStockData(getStockDataFromNetwork(Constants.QUERY))
     }
 
-    private suspend fun getStockData(sids: String) {
+    suspend fun setStockData(response:Response<StockResponse>) {
         stockData.postValue(Resource.Loading())
         try {
             if (isNetworkAvailable.value == true) {
-                val response = stockRepository.getStockDataFromNetwork(sids)
                 val outComeValue = handleStockResponse(response)
                 stockData.postValue(outComeValue)
                 val value = outComeValue.data
@@ -69,7 +68,7 @@ class MainActivityViewModel(
         return Resource.Error(response.message())
     }
 
-    suspend fun getStockDataFromNetwork(sids: String) =
+    private suspend fun getStockDataFromNetwork(sids: String) =
         stockRepository.getStockDataFromNetwork(sids)
 
     private suspend fun updateLocalStockData(stock: Stock) =
