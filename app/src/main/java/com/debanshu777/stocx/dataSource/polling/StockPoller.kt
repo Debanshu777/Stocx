@@ -16,21 +16,20 @@ import retrofit2.Response
 class StockPoller(
     private val viewModel: MainActivityViewModel,
     private val repository: StockRepository,
-    private val dispatcher:CoroutineDispatcher
-):Poller {
+    private val dispatcher: CoroutineDispatcher
+) : Poller {
     @ExperimentalCoroutinesApi
-    override fun poll(delay: Long):Flow<Response<StockResponse>> {
+    override fun poll(delay: Long): Flow<Response<StockResponse>> {
         return channelFlow {
             while (!isClosedForSend) {
-                if(viewModel.getDataActiveState.value=="INACTIVE") {
+                if (viewModel.getDataActiveState.value == "INACTIVE") {
                     close()
                     return@channelFlow
                 }
-                val data= repository.getStockDataFromNetwork(Constants.QUERY)
+                val data = repository.getStockDataFromNetwork(Constants.QUERY)
                 send(data)
                 delay(delay)
-                Log.e("Poller","Poller Running")
-
+                Log.e("Poller", "Poller Running")
             }
         }.flowOn(dispatcher)
     }

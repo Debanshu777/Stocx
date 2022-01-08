@@ -40,7 +40,7 @@ open class MainActivity : AppCompatActivity() {
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory)[MainActivityViewModel::class.java]
 
-        stockPoller = StockPoller(viewModel,stockRepository, Dispatchers.Main)
+        stockPoller = StockPoller(viewModel, stockRepository, Dispatchers.Main)
         connectionLiveData.observe(this, {
             viewModel.isNetworkAvailable.value = it
         })
@@ -52,15 +52,13 @@ open class MainActivity : AppCompatActivity() {
             }
         })
         viewModel.stockData.observe(this, {
-            //binding.dummy.text=it.data.toString()
-
+            // binding.dummy.text=it.data.toString()
         })
         viewModel.responseFlow.observe(this, {
-            //binding.dummy2.text=it?.toString()
+            // binding.dummy2.text=it?.toString()
             it?.let {
                 setupRecyclerView(it)
             }
-
         })
     }
 
@@ -69,7 +67,6 @@ open class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu, menu)
         return true
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -84,7 +81,6 @@ open class MainActivity : AppCompatActivity() {
                                 viewModel.setStockData(it)
                             }
                         }
-
                     }
                     "ACTIVE" -> {
                         item.setIcon(R.drawable.ic_play_icon)

@@ -1,6 +1,5 @@
 package com.debanshu777.stocx.dataSource.model
 
-
 import com.google.gson.annotations.SerializedName
 
 data class StockResponse(

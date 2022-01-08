@@ -35,7 +35,7 @@ class MainActivityViewModel(
         setStockData(getStockDataFromNetwork(Constants.QUERY))
     }
 
-    suspend fun setStockData(response:Response<StockResponse>) {
+    suspend fun setStockData(response: Response<StockResponse>) {
         stockData.postValue(Resource.Loading())
         try {
             if (isNetworkAvailable.value == true) {
@@ -76,5 +76,4 @@ class MainActivityViewModel(
 
 //    fun getStockDataFromLocal(): List<Stock> =
 //        stockRepository.getStockDataFromLocal()
-
 }
