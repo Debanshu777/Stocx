@@ -1,4 +1,4 @@
-package com.debanshu777.stocx.dataSource.local
+package com.debanshu777.stocx.dataSource.repository.local
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface StockDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsertStock(stock: Stock): Long
+    suspend fun upsertStock(stockList: List<Stock>)
 
     @Query("SELECT * FROM stock")
     fun getAllStocks(): Flow<List<Stock>>

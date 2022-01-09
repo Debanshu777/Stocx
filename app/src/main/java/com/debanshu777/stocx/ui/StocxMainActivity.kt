@@ -8,13 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.debanshu777.stocx.R
-import com.debanshu777.stocx.dataSource.local.StockDatabase
+import com.debanshu777.stocx.dataSource.repository.local.StockDatabase
 import com.debanshu777.stocx.dataSource.model.Stock
-import com.debanshu777.stocx.dataSource.network.ConnectionLiveData
 import com.debanshu777.stocx.dataSource.polling.StockPoller
 import com.debanshu777.stocx.dataSource.repository.StockRepository
 import com.debanshu777.stocx.databinding.ActivityMainBinding
 import com.debanshu777.stocx.ui.adapter.StockAdapter
+import com.debanshu777.stocx.utils.ConnectionLiveData
 import com.debanshu777.stocx.utils.Constants.Companion.ACTIVE
 import com.debanshu777.stocx.utils.Constants.Companion.DELAY_TIME_BETWEEN_CALL
 import com.debanshu777.stocx.utils.Constants.Companion.INACTIVE

@@ -1,4 +1,4 @@
-package com.debanshu777.stocx.dataSource.network
+package com.debanshu777.stocx.dataSource.repository.network
 
 import com.debanshu777.stocx.utils.Constants.Companion.BASE_URL
 import okhttp3.OkHttpClient

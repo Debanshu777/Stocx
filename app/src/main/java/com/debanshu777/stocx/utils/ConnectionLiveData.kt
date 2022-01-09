@@ -1,4 +1,4 @@
-package com.debanshu777.stocx.dataSource.network
+package com.debanshu777.stocx.utils
 
 import android.content.BroadcastReceiver
 import android.content.Context

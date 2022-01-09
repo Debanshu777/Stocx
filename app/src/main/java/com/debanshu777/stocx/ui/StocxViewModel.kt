@@ -16,7 +16,8 @@ import java.io.IOException
 class StocxViewModel(
     private val stockRepository: StockRepository
 ) : ViewModel() {
-    private val stockDataNetworkResponse: MutableLiveData<Resource<StockResponse>> = MutableLiveData()
+    private val stockDataNetworkResponse: MutableLiveData<Resource<StockResponse>> =
+        MutableLiveData()
     val isNetworkAvailable: MutableLiveData<Boolean> = MutableLiveData(false)
     val pollingState: MutableLiveData<String> = MutableLiveData(INACTIVE)
     private var stockDataIntermediateNetworkResponse: StockResponse? = null
@@ -44,9 +45,7 @@ class StocxViewModel(
                 stockDataNetworkResponse.postValue(outComeValue)
                 val value = outComeValue.data
                 if (value != null) {
-                    for (i in value.data) {
-                        updateLocalStockData(i)
-                    }
+                    updateLocalStockData(value.data)
                 }
             } else {
                 stockDataNetworkResponse.postValue(Resource.Error("No Internet Connection"))
@@ -72,7 +71,7 @@ class StocxViewModel(
     private suspend fun getStockDataFromNetwork(sids: String) =
         stockRepository.getStockDataFromNetwork(sids)
 
-    private suspend fun updateLocalStockData(stock: Stock) =
-        stockRepository.updateLocalStockData(stock)
+    private suspend fun updateLocalStockData(stockList: List<Stock>) =
+        stockRepository.updateLocalStockData(stockList)
 
 }

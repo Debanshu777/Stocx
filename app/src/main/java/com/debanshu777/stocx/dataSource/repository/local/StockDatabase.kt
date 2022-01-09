@@ -1,4 +1,4 @@
-package com.debanshu777.stocx.dataSource.local
+package com.debanshu777.stocx.dataSource.repository.local
 
 import android.content.Context
 import androidx.room.Database
