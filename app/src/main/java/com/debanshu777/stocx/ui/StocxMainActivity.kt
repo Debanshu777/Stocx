@@ -42,6 +42,7 @@ open class StocxMainActivity : AppCompatActivity() {
             ViewModelProvider(this, viewModelProviderFactory)[StocxViewModel::class.java]
 
         stockPoller = StockPoller(viewModel, stockRepository, Dispatchers.IO)
+        setupRecyclerView()
         connectionLiveData.observe(this, {
             viewModel.isNetworkAvailable.value = it
             if (it){
@@ -58,9 +59,11 @@ open class StocxMainActivity : AppCompatActivity() {
         viewModel.stockDataLocalSingleSource.observe(this, {
             if(it==null || it.isEmpty())
                 binding.noCacheData.visibility=View.VISIBLE
-            it?.let {
-                binding.noCacheData.visibility=View.GONE
-                setupRecyclerView(it)
+            else {
+                it.let {
+                    binding.noCacheData.visibility = View.GONE
+                    stockAdapter.differ.submitList(it.toList())
+                }
             }
         })
     }
@@ -96,8 +99,8 @@ open class StocxMainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupRecyclerView(stocks: List<Stock>) {
-        stockAdapter = StockAdapter(stocks)
+    private fun setupRecyclerView() {
+        stockAdapter = StockAdapter()
         binding.stockList.apply {
             adapter = stockAdapter
             layoutManager = LinearLayoutManager(context)

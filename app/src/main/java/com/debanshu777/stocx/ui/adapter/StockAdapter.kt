@@ -5,14 +5,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.debanshu777.stocx.R
 import com.debanshu777.stocx.dataSource.model.Stock
 
-class StockAdapter(
-    private val stock: List<Stock>,
-) :
+class StockAdapter :
     RecyclerView.Adapter<StockAdapter.StockAdapterViewHolder>() {
+     private val differCallback = object : DiffUtil.ItemCallback<Stock>() {
+        override fun areItemsTheSame(oldItem: Stock, newItem: Stock): Boolean {
+            return oldItem.sid == newItem.sid
+        }
+
+        override fun areContentsTheSame(oldItem: Stock, newItem: Stock): Boolean {
+            return oldItem == newItem
+        }
+    }
+    val differ = AsyncListDiffer(this, differCallback)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockAdapterViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view: View = inflater.inflate(R.layout.stock_item, parent, false)
@@ -20,10 +30,10 @@ class StockAdapter(
     }
 
     override fun onBindViewHolder(holder: StockAdapterViewHolder, position: Int) {
-        holder.stockSid.text = stock[position].sid
-        holder.stockPrice.text = stock[position].price.toString()
-        holder.stockChange.text = stock[position].change.toString()
-        if (stock[position].change < 0) {
+        holder.stockSid.text = differ.currentList[position].sid
+        holder.stockPrice.text = differ.currentList[position].price.toString()
+        holder.stockChange.text = differ.currentList[position].change.toString()
+        if (differ.currentList[position].change < 0) {
             holder.changeIcon.setImageResource(R.drawable.ic_loss_icon)
         }
     }
@@ -39,5 +49,5 @@ class StockAdapter(
     }
 
     override fun getItemCount(): Int =
-        stock.size
+        differ.currentList.size
 }

@@ -31,4 +31,17 @@ data class Stock(
 
     @SerializedName("volume")
     val volume: Int
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        return when(other){
+            is Stock->{
+                this.price==other.price && this.change==other.change
+            }
+            else-> false
+        }
+    }
+
+    override fun hashCode(): Int {
+        return sid.hashCode()
+    }
+}
