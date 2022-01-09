@@ -6,4 +6,5 @@
     <string name="change_icon_dec">Change Icon</string>
     <string name="no_network_connection">No Network Connection</string>
     <string name="getDataIcon">getDataIcon</string>
+    <string name="no_data_cache">Data Not Available in Cache. Connect to Network</string>
 </resources>

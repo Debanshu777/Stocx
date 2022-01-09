@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.debanshu777.stocx.dataSource.model.Stock
+import com.debanshu777.stocx.utils.Constants.Companion.DB_NAME
 
 @Database(entities = [Stock::class], version = 1)
 abstract class StockDatabase : RoomDatabase() {
@@ -22,7 +23,7 @@ abstract class StockDatabase : RoomDatabase() {
             Room.databaseBuilder(
                 context.applicationContext,
                 StockDatabase::class.java,
-                "stock_db.db"
+                DB_NAME
             ).build()
     }
 }

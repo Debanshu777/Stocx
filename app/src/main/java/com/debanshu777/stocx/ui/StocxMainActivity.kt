@@ -24,10 +24,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-open class MainActivity : AppCompatActivity() {
+open class StocxMainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: MainActivityViewModel
+    private lateinit var viewModel: StocxViewModel
     private lateinit var stockAdapter: StockAdapter
     private lateinit var connectionLiveData: ConnectionLiveData
     private lateinit var stockPoller: StockPoller
@@ -37,13 +37,16 @@ open class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         connectionLiveData = ConnectionLiveData(this)
         val stockRepository = StockRepository(StockDatabase(this))
-        val viewModelProviderFactory = MainActivityViewModelProviderFactory(stockRepository)
+        val viewModelProviderFactory = StocxViewModelProviderFactory(stockRepository)
         viewModel =
-            ViewModelProvider(this, viewModelProviderFactory)[MainActivityViewModel::class.java]
+            ViewModelProvider(this, viewModelProviderFactory)[StocxViewModel::class.java]
 
-        stockPoller = StockPoller(viewModel, stockRepository, Dispatchers.Main)
+        stockPoller = StockPoller(viewModel, stockRepository, Dispatchers.IO)
         connectionLiveData.observe(this, {
             viewModel.isNetworkAvailable.value = it
+            if (it){
+                viewModel.setDataSingleSource()
+            }
         })
         viewModel.isNetworkAvailable.observe(this, {
             if (it) {
@@ -53,7 +56,10 @@ open class MainActivity : AppCompatActivity() {
             }
         })
         viewModel.stockDataLocalSingleSource.observe(this, {
+            if(it==null || it.isEmpty())
+                binding.noCacheData.visibility=View.VISIBLE
             it?.let {
+                binding.noCacheData.visibility=View.GONE
                 setupRecyclerView(it)
             }
         })

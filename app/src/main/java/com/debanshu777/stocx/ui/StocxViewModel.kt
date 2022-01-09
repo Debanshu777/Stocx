@@ -13,17 +13,16 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.IOException
 
-class MainActivityViewModel(
+class StocxViewModel(
     private val stockRepository: StockRepository
 ) : ViewModel() {
     private val stockDataNetworkResponse: MutableLiveData<Resource<StockResponse>> = MutableLiveData()
-    val isNetworkAvailable: MutableLiveData<Boolean> = MutableLiveData(true)
+    val isNetworkAvailable: MutableLiveData<Boolean> = MutableLiveData(false)
     val pollingState: MutableLiveData<String> = MutableLiveData(INACTIVE)
     private var stockDataIntermediateNetworkResponse: StockResponse? = null
     val stockDataLocalSingleSource = MutableLiveData<List<Stock>>(null)
 
     init {
-        setDataSingleSource()
         viewModelScope.launch {
             stockRepository.getStockDataFromLocal().collect {
                 stockDataLocalSingleSource.postValue(it)
@@ -31,8 +30,10 @@ class MainActivityViewModel(
         }
     }
 
-    private fun setDataSingleSource() = viewModelScope.launch {
-        setStockData(getStockDataFromNetwork(Constants.QUERY))
+    fun setDataSingleSource() = viewModelScope.launch {
+        if (isNetworkAvailable.value == true) {
+            setStockData(getStockDataFromNetwork(Constants.QUERY))
+        }
     }
 
     suspend fun setStockData(response: Response<StockResponse>) {
