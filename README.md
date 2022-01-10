@@ -5,7 +5,7 @@
 Stocx
 </h1>
 <p align="center">
-A Simple Stock tracking app getting data from the Tickertape api and showcasing using the MVVM architechture pattern with regular data pooling every 5 second. Folling Single Source of truth and Using Room Database as Local Caching.  
+A Simple Stock tracking app getting data from the Tickertape api and showcasing using the MVVM architecture pattern with regular data pooling every 5 second. Folling Single Source of truth and Using Room Database as Local Caching.  
 <br>Following a single actvity design, <b><i>Coroutines, Retrofit, Kotlin Flow, Room, Linting. </i></b> 
 </p>
 <table align="center">
