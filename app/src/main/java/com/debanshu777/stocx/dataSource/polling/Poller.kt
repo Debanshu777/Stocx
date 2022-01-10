@@ -7,5 +7,5 @@ import retrofit2.Response
 
 interface Poller {
     @ExperimentalCoroutinesApi
-    fun poll(delay: Long): Flow<Response<StockResponse>>
+    fun poll(delay: Long,sids:String): Flow<Response<StockResponse>>
 }

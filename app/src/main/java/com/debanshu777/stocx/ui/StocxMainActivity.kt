@@ -9,12 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.debanshu777.stocx.R
 import com.debanshu777.stocx.dataSource.repository.local.StockDatabase
-import com.debanshu777.stocx.dataSource.model.Stock
 import com.debanshu777.stocx.dataSource.polling.StockPoller
 import com.debanshu777.stocx.dataSource.repository.StockRepository
 import com.debanshu777.stocx.databinding.ActivityMainBinding
 import com.debanshu777.stocx.ui.adapter.StockAdapter
 import com.debanshu777.stocx.utils.ConnectionLiveData
+import com.debanshu777.stocx.utils.Constants
 import com.debanshu777.stocx.utils.Constants.Companion.ACTIVE
 import com.debanshu777.stocx.utils.Constants.Companion.DELAY_TIME_BETWEEN_CALL
 import com.debanshu777.stocx.utils.Constants.Companion.INACTIVE
@@ -34,28 +34,19 @@ open class StocxMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
+        setTheme(R.style.Theme_Stocx)
         setContentView(binding.root)
+
+        //SetUp Phase
         connectionLiveData = ConnectionLiveData(this)
         val stockRepository = StockRepository(StockDatabase(this))
         val viewModelProviderFactory = StocxViewModelProviderFactory(stockRepository)
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory)[StocxViewModel::class.java]
-
         stockPoller = StockPoller(viewModel, stockRepository, Dispatchers.IO)
         setupRecyclerView()
-        connectionLiveData.observe(this, {
-            viewModel.isNetworkAvailable.value = it
-            if (it){
-                viewModel.setDataSingleSource()
-            }
-        })
-        viewModel.isNetworkAvailable.observe(this, {
-            if (it) {
-                binding.networkUpdate.visibility = View.GONE
-            } else {
-                binding.networkUpdate.visibility = View.VISIBLE
-            }
-        })
+
+        //Observing the changes in viewModel
         viewModel.stockDataLocalSingleSource.observe(this, {
             if(it==null || it.isEmpty())
                 binding.noCacheData.visibility=View.VISIBLE
@@ -66,6 +57,20 @@ open class StocxMainActivity : AppCompatActivity() {
                 }
             }
         })
+        connectionLiveData.observe(this, {
+            viewModel.isNetworkAvailable.value = it
+            if (it){
+                viewModel.setDataSingleSource(Constants.QUERY)
+            }
+        })
+        viewModel.isNetworkAvailable.observe(this, {
+            if (it) {
+                binding.networkUpdate.visibility = View.GONE
+            } else {
+                binding.networkUpdate.visibility = View.VISIBLE
+            }
+        })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -81,8 +86,8 @@ open class StocxMainActivity : AppCompatActivity() {
                     INACTIVE -> {
                         item.setIcon(R.drawable.ic_pause_icon)
                         viewModel.pollingState.value = ACTIVE
-                        val data = stockPoller.poll(DELAY_TIME_BETWEEN_CALL)
-                        CoroutineScope(Dispatchers.Main).launch {
+                        val data = stockPoller.poll(DELAY_TIME_BETWEEN_CALL,Constants.QUERY)
+                        CoroutineScope(Dispatchers.IO).launch {
                             data.collect {
                                 viewModel.setStockData(it)
                             }

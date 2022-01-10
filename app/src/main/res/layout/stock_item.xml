@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="@string/dummy_price"
-        android:textSize="16sp"
+        android:textSize="@dimen/stock_price_padding"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/stock_change"
@@ -36,8 +36,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="@string/dummy_change"
+        android:textSize="@dimen/stock_change_padding"
         android:textStyle="bold"
-        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/change_icon"
         app:layout_constraintHorizontal_bias="0.98"
@@ -49,13 +49,13 @@
         android:id="@+id/change_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/change_icon_dec"
         android:src="@drawable/ic_gain_icon"
-        app:layout_constraintVertical_bias="0.9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.98"
-        android:contentDescription="@string/change_icon_dec" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

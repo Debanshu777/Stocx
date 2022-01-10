@@ -19,7 +19,7 @@ class StockPoller(
     private val dispatcher: CoroutineDispatcher
 ) : Poller {
     @ExperimentalCoroutinesApi
-    override fun poll(delay: Long): Flow<Response<StockResponse>> {
+    override fun poll(delay: Long,sids:String): Flow<Response<StockResponse>> {
         return channelFlow {
             while (!isClosedForSend) {
                 if (viewModel.pollingState.value == "INACTIVE" || !viewModel.isNetworkAvailable.value!!) {
@@ -29,7 +29,7 @@ class StockPoller(
                 }
                 Log.i("Poller", "Poller Running")
                 delay(delay)
-                val data = repository.getStockDataFromNetwork(Constants.QUERY)
+                val data = repository.getStockDataFromNetwork(sids)
                 send(data)
             }
         }.flowOn(dispatcher)

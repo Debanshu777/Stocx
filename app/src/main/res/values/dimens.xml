@@ -2,4 +2,7 @@
 <resources>
     <dimen name="stock_sid_textSize">20sp</dimen>
     <dimen name="stock_item_padding">15dp</dimen>
+    <dimen name="network_not_available_padding">2dp</dimen>
+    <dimen name="stock_price_padding">16sp</dimen>
+    <dimen name="stock_change_padding">12sp</dimen>
 </resources>

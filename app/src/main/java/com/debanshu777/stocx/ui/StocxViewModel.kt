@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.debanshu777.stocx.dataSource.model.Stock
 import com.debanshu777.stocx.dataSource.model.StockResponse
 import com.debanshu777.stocx.dataSource.repository.StockRepository
-import com.debanshu777.stocx.utils.Constants
 import com.debanshu777.stocx.utils.Constants.Companion.INACTIVE
 import com.debanshu777.stocx.utils.Resource
 import kotlinx.coroutines.launch
@@ -16,9 +15,10 @@ import java.io.IOException
 class StocxViewModel(
     private val stockRepository: StockRepository
 ) : ViewModel() {
+
     private val stockDataNetworkResponse: MutableLiveData<Resource<StockResponse>> =
         MutableLiveData()
-    val isNetworkAvailable: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isNetworkAvailable: MutableLiveData<Boolean> = MutableLiveData(true)
     val pollingState: MutableLiveData<String> = MutableLiveData(INACTIVE)
     private var stockDataIntermediateNetworkResponse: StockResponse? = null
     val stockDataLocalSingleSource = MutableLiveData<List<Stock>>(null)
@@ -31,9 +31,9 @@ class StocxViewModel(
         }
     }
 
-    fun setDataSingleSource() = viewModelScope.launch {
+    fun setDataSingleSource(sids:String) = viewModelScope.launch {
         if (isNetworkAvailable.value == true) {
-            setStockData(getStockDataFromNetwork(Constants.QUERY))
+            setStockData(getStockDataFromNetwork(sids))
         }
     }
 
